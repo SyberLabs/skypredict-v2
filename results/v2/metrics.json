@@ -1,0 +1,148 @@
+{
+  "stage": "A",
+  "timestamp": "2026-05-26T15:36:03.347250",
+  "dataset": "BTS 2024 (Kaggle hrishitpatil/flight-data-2024)",
+  "sample_mode": false,
+  "split": {
+    "train": "2024-01-01 to 2024-08-31",
+    "val": "2024-09-01 to 2024-10-31",
+    "test": "2024-11-01 to 2024-12-31",
+    "train_rows": 4621726,
+    "val_rows": 1186776,
+    "test_rows": 1156765
+  },
+  "feature_columns": [
+    "dep_minutes",
+    "arr_minutes",
+    "crs_elapsed_time",
+    "distance",
+    "day_of_month",
+    "carrier_hist_delay_rate",
+    "carrier_hist_avg_delay",
+    "origin_hist_delay_rate",
+    "dest_hist_delay_rate",
+    "route_hist_delay_rate",
+    "route_hist_avg_delay",
+    "op_carrier_enc",
+    "origin_enc",
+    "dest_enc",
+    "day_of_week",
+    "month",
+    "is_weekend",
+    "is_holiday",
+    "distance_bucket"
+  ],
+  "seed": 42,
+  "models": {
+    "logistic_regression": {
+      "binary": {
+        "model": "Logistic Regression",
+        "accuracy": 0.4683,
+        "precision": 0.1725,
+        "recall": 0.7553,
+        "f1": 0.2809,
+        "roc_auc": 0.629,
+        "pr_auc": 0.201
+      },
+      "ordinal_recall": {
+        "on_time": 0.4226,
+        "minor": 0.7555,
+        "major": 0.772,
+        "severe": 0.6721
+      },
+      "train_time_s": 41.0
+    },
+    "lightgbm_clf": {
+      "binary": {
+        "model": "LightGBM Classifier",
+        "accuracy": 0.5635,
+        "precision": 0.1832,
+        "recall": 0.6287,
+        "f1": 0.2837,
+        "roc_auc": 0.6252,
+        "pr_auc": 0.2002
+      },
+      "ordinal_recall": {
+        "on_time": 0.5531,
+        "minor": 0.6292,
+        "major": 0.6457,
+        "severe": 0.5396
+      },
+      "train_time_s": 28.2
+    },
+    "lightgbm_ordinal": {
+      "ordinal_multiclass": {
+        "model": "LightGBM Ordinal",
+        "accuracy": 0.4236,
+        "macro_f1": 0.2193,
+        "quadratic_weighted_kappa": 0.0364,
+        "adjacent_bucket_accuracy": 0.6028,
+        "per_bucket": {
+          "on_time": {
+            "precision": 0.9076,
+            "recall": 0.4558,
+            "support": 1023609
+          },
+          "minor": {
+            "precision": 0.1432,
+            "recall": 0.2036,
+            "support": 115956
+          },
+          "major": {
+            "precision": 0.0498,
+            "recall": 0.2343,
+            "support": 39090
+          },
+          "severe": {
+            "precision": 0.0103,
+            "recall": 0.4105,
+            "support": 8121
+          }
+        }
+      },
+      "train_time_s": 104.3
+    },
+    "lightgbm_reg": {
+      "regression": {
+        "model": "LightGBM Regressor",
+        "mae": 18.359,
+        "rmse": 33.315,
+        "r2": -0.0018,
+        "mae_by_bucket": {
+          "on_time": 12.2,
+          "minor": 29.86,
+          "major": 96.73,
+          "severe": 253.31
+        }
+      },
+      "train_time_s": 39.3
+    }
+  },
+  "baselines": {
+    "predict_majority_class": {
+      "name": "predict_majority_class",
+      "accuracy": 0.8625,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "roc_auc": 0.5,
+      "pr_auc": 0.1375,
+      "train_pos_rate": 0.22498845669345174
+    },
+    "predict_median": {
+      "name": "predict_median",
+      "mae": 17.319,
+      "rmse": 33.54,
+      "binary_accuracy": 0.8625,
+      "predicted_value": -5.0
+    },
+    "route_historical_mean": {
+      "name": "route_historical_mean",
+      "mae": 23.186,
+      "rmse": 34.641,
+      "binary_accuracy": 0.7653,
+      "n_unseen_routes": 894
+    }
+  },
+  "total_time_s": 273.4
+}

@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Local data and generated artifacts
+data/
+models/
+logs/
+scratch/
+notebooks/.ipynb_checkpoints/
+*.joblib
+*.pkl
+*.parquet
+*.csv
+*.zip
+
+# Dashboard/runtime
+.streamlit/secrets.toml
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+

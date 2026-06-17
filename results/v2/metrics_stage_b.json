@@ -1,0 +1,132 @@
+{
+  "stage": "B",
+  "timestamp": "2026-05-26T12:42:30.860186",
+  "dataset": "BTS 2024 (Kaggle hrishitpatil/flight-data-2024)",
+  "sample_mode": false,
+  "split": {
+    "train": "2024-01-01 to 2024-08-31",
+    "val": "2024-09-01 to 2024-10-31",
+    "test": "2024-11-01 to 2024-12-31",
+    "train_rows": 4621726,
+    "val_rows": 1186776,
+    "test_rows": 1156765
+  },
+  "feature_columns": [
+    "dep_minutes",
+    "arr_minutes",
+    "crs_elapsed_time",
+    "distance",
+    "day_of_month",
+    "carrier_hist_delay_rate",
+    "carrier_hist_avg_delay",
+    "origin_hist_delay_rate",
+    "dest_hist_delay_rate",
+    "route_hist_delay_rate",
+    "route_hist_avg_delay",
+    "op_carrier_enc",
+    "origin_enc",
+    "dest_enc",
+    "day_of_week",
+    "month",
+    "is_weekend",
+    "is_holiday",
+    "distance_bucket",
+    "origin_wx_temp",
+    "origin_wx_dwpt",
+    "origin_wx_rhum",
+    "origin_wx_wspd",
+    "origin_wx_wpgt",
+    "origin_wx_wdir",
+    "origin_wx_prcp",
+    "origin_wx_pres",
+    "origin_wx_visibility",
+    "origin_wx_is_ifr",
+    "origin_wx_is_low_vis",
+    "origin_wx_is_precip",
+    "origin_wx_is_high_wind",
+    "dest_wx_temp",
+    "dest_wx_dwpt",
+    "dest_wx_rhum",
+    "dest_wx_wspd",
+    "dest_wx_wpgt",
+    "dest_wx_wdir",
+    "dest_wx_prcp",
+    "dest_wx_pres",
+    "dest_wx_visibility",
+    "dest_wx_is_ifr",
+    "dest_wx_is_low_vis",
+    "dest_wx_is_precip",
+    "dest_wx_is_high_wind"
+  ],
+  "seed": 42,
+  "models": {
+    "logistic_regression": {
+      "binary": {
+        "model": "Logistic Regression",
+        "accuracy": 0.5225,
+        "precision": 0.1823,
+        "recall": 0.7092,
+        "f1": 0.29,
+        "roc_auc": 0.6443,
+        "pr_auc": 0.2255
+      },
+      "ordinal_recall": {
+        "on_time": 0.4928,
+        "minor": 0.7079,
+        "major": 0.7278,
+        "severe": 0.6381
+      },
+      "train_time_s": 104.1
+    },
+    "lightgbm_clf": {
+      "binary": {
+        "model": "LightGBM Classifier",
+        "accuracy": 0.6238,
+        "precision": 0.2042,
+        "recall": 0.5991,
+        "f1": 0.3046,
+        "roc_auc": 0.6575,
+        "pr_auc": 0.2366
+      },
+      "ordinal_recall": {
+        "on_time": 0.6278,
+        "minor": 0.5951,
+        "major": 0.6251,
+        "severe": 0.5305
+      },
+      "train_time_s": 38.3
+    },
+    "lightgbm_reg": {
+      "regression": {
+        "model": "LightGBM Regressor",
+        "mae": 17.49,
+        "rmse": 32.864,
+        "r2": 0.0251,
+        "mae_by_bucket": {
+          "on_time": 11.19,
+          "minor": 30.31,
+          "major": 95.65,
+          "severe": 252.41
+        }
+      },
+      "train_time_s": 47.4
+    }
+  },
+  "baselines": {
+    "predict_median": {
+      "name": "predict_median",
+      "mae": 17.319,
+      "rmse": 33.54,
+      "binary_accuracy": 0.8625,
+      "predicted_value": -5.0
+    },
+    "route_historical_mean": {
+      "name": "route_historical_mean",
+      "mae": 23.186,
+      "rmse": 34.641,
+      "binary_accuracy": 0.7653,
+      "n_unseen_routes": 894
+    }
+  },
+  "total_time_s": 266.6
+}

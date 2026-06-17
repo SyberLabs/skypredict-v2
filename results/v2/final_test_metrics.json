@@ -1,0 +1,191 @@
+{
+  "timestamp": "2026-05-26T19:29:33.918074",
+  "test_rows": 1156765,
+  "val_pos_rate": 0.1375,
+  "test_pos_rate": 0.1732,
+  "stages": {
+    "Stage A (Flight-Only)": {
+      "binary": {
+        "model": "LGBM Clf - Stage A (Flight-Only)",
+        "accuracy": 0.5931,
+        "precision": 0.2218,
+        "recall": 0.5378,
+        "f1": 0.314,
+        "roc_auc": 0.601,
+        "pr_auc": 0.2262,
+        "pr_auc_at_val_prevalence": {
+          "natural_pos_rate": 0.1732,
+          "target_pos_rate": 0.1375,
+          "rebalanced_pos_rate": 0.1375,
+          "pr_auc_natural": 0.2262,
+          "pr_auc_rebalanced": 0.1823,
+          "rebalanced": true,
+          "kept_rows": 1108829
+        }
+      },
+      "ordinal_multiclass": {
+        "model": "LGBM Ord - Stage A (Flight-Only)",
+        "accuracy": 0.4657,
+        "macro_f1": 0.2363,
+        "quadratic_weighted_kappa": 0.0519,
+        "adjacent_bucket_accuracy": 0.6662,
+        "per_bucket": {
+          "on_time": {
+            "precision": 0.8663,
+            "recall": 0.5223,
+            "support": 956379
+          },
+          "minor": {
+            "precision": 0.1417,
+            "recall": 0.1692,
+            "support": 133324
+          },
+          "major": {
+            "precision": 0.0701,
+            "recall": 0.2316,
+            "support": 54337
+          },
+          "severe": {
+            "precision": 0.0165,
+            "recall": 0.3138,
+            "support": 12725
+          }
+        }
+      },
+      "regression": {
+        "model": "LGBM Reg - Stage A (Flight-Only)",
+        "mae": 21.029,
+        "rmse": 39.854,
+        "r2": -0.0131,
+        "mae_by_bucket": {
+          "on_time": 11.76,
+          "minor": 32.72,
+          "major": 100.7,
+          "severe": 254.75
+        }
+      }
+    },
+    "Stage B (Flight + Weather)": {
+      "binary": {
+        "model": "LGBM Clf - Stage B (Flight + Weather)",
+        "accuracy": 0.6314,
+        "precision": 0.2521,
+        "recall": 0.5735,
+        "f1": 0.3502,
+        "roc_auc": 0.6531,
+        "pr_auc": 0.2943,
+        "pr_auc_at_val_prevalence": {
+          "natural_pos_rate": 0.1732,
+          "target_pos_rate": 0.1375,
+          "rebalanced_pos_rate": 0.1375,
+          "pr_auc_natural": 0.2943,
+          "pr_auc_rebalanced": 0.2442,
+          "rebalanced": true,
+          "kept_rows": 1108829
+        }
+      },
+      "ordinal_multiclass": {
+        "model": "LGBM Ord - Stage B (Flight + Weather)",
+        "accuracy": 0.5123,
+        "macro_f1": 0.263,
+        "quadratic_weighted_kappa": 0.103,
+        "adjacent_bucket_accuracy": 0.7499,
+        "per_bucket": {
+          "on_time": {
+            "precision": 0.8847,
+            "recall": 0.5649,
+            "support": 956379
+          },
+          "minor": {
+            "precision": 0.1537,
+            "recall": 0.2486,
+            "support": 133324
+          },
+          "major": {
+            "precision": 0.0788,
+            "recall": 0.2897,
+            "support": 54337
+          },
+          "severe": {
+            "precision": 0.0266,
+            "recall": 0.2731,
+            "support": 12725
+          }
+        }
+      },
+      "regression": {
+        "model": "LGBM Reg - Stage B (Flight + Weather)",
+        "mae": 20.388,
+        "rmse": 38.986,
+        "r2": 0.0306,
+        "mae_by_bucket": {
+          "on_time": 11.4,
+          "minor": 31.59,
+          "major": 97.37,
+          "severe": 249.76
+        }
+      }
+    },
+    "Stage C (Flight + Weather + Network)": {
+      "binary": {
+        "model": "LGBM Clf - Stage C (Flight + Weather + Network)",
+        "accuracy": 0.7348,
+        "precision": 0.3307,
+        "recall": 0.5187,
+        "f1": 0.4039,
+        "roc_auc": 0.7129,
+        "pr_auc": 0.4029,
+        "pr_auc_at_val_prevalence": {
+          "natural_pos_rate": 0.1732,
+          "target_pos_rate": 0.1375,
+          "rebalanced_pos_rate": 0.1375,
+          "pr_auc_natural": 0.4029,
+          "pr_auc_rebalanced": 0.3488,
+          "rebalanced": true,
+          "kept_rows": 1108829
+        }
+      },
+      "ordinal_multiclass": {
+        "model": "LGBM Ord - Stage C (Flight + Weather + Network)",
+        "accuracy": 0.6309,
+        "macro_f1": 0.3127,
+        "quadratic_weighted_kappa": 0.191,
+        "adjacent_bucket_accuracy": 0.8456,
+        "per_bucket": {
+          "on_time": {
+            "precision": 0.8915,
+            "recall": 0.7078,
+            "support": 956379
+          },
+          "minor": {
+            "precision": 0.1801,
+            "recall": 0.2519,
+            "support": 133324
+          },
+          "major": {
+            "precision": 0.1332,
+            "recall": 0.286,
+            "support": 54337
+          },
+          "severe": {
+            "precision": 0.0397,
+            "recall": 0.2938,
+            "support": 12725
+          }
+        }
+      },
+      "regression": {
+        "model": "LGBM Reg - Stage C (Flight + Weather + Network)",
+        "mae": 19.234,
+        "rmse": 37.954,
+        "r2": 0.0812,
+        "mae_by_bucket": {
+          "on_time": 10.2,
+          "minor": 32.27,
+          "major": 93.52,
+          "severe": 244.02
+        }
+      }
+    }
+  }
+}
