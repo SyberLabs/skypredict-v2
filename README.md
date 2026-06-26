@@ -83,6 +83,9 @@ The strongest defensible claim is that network arrival-pressure features provide
 - Raw BTS data is not bundled, so full reproduction requires downloading the source dataset.
 - Some dashboard and reporting components assume the pipeline has already generated local JSON/parquet artifacts.
 
+## Acknowledgements
+The development of this project was supplemented by fellow students Yash Sanghvin and Xiyi Wang, during our time in Santa Clara University's CSEN 140 - Machine Learning course and was submitted as a final project. 
+
 ## Status
 
 Public portfolio candidate. Applied ML / data systems artifact.
