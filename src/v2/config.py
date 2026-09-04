@@ -1,5 +1,5 @@
 """
-config.py: Central configuration for SkyPredict v2 pipeline.
+config.py — Central configuration for SkyPredict v2 pipeline.
 
 All paths, constants, allowed/forbidden feature lists, and target definitions
 live here.  Import this module everywhere to keep magic numbers out of logic.
@@ -36,7 +36,7 @@ DELAY_THRESHOLD_MIN = 15          # BTS convention: delayed if ARR_DELAY > 15
 ORDINAL_BINS   = [-float("inf"), 15, 60, 180, float("inf")]
 ORDINAL_LABELS = ["on_time", "minor", "major", "severe"]
 
-# Regression cap: limits tail influence
+# Regression cap — limits tail influence
 ARR_DELAY_CAP_LOW  = -60
 ARR_DELAY_CAP_HIGH = 300
 

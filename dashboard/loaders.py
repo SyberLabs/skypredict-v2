@@ -3,17 +3,17 @@
 This dashboard runs against the artifacts that already exist on disk after the
 audit-fixed pipeline runs were completed:
 
-  * results/v2/metrics.json: Stage A val metrics + baselines
-  * results/v2/metrics_stage_b.json: Stage B val metrics
-  * results/v2/metrics_stage_c.json: Stage C val metrics + baselines + ordinal
-  * results/v2/final_test_metrics.json: held-out test, A/B/C side by side,
+  * results/v2/metrics.json          — Stage A val metrics + baselines
+  * results/v2/metrics_stage_b.json  — Stage B val metrics
+  * results/v2/metrics_stage_c.json  — Stage C val metrics + baselines + ordinal
+  * results/v2/final_test_metrics.json — held-out test, A/B/C side by side,
         including PR-AUC@val-prevalence and ordinal multiclass blocks
-  * data/processed_v2/clean.parquet: 6.96M cleaned flights
-  * data/processed_v2/airports.csv: IATA → lat/lon/timezone
-  * data/processed_v2/hourly_weather_2024.parquet: NOAA hourly weather
+  * data/processed_v2/clean.parquet      — 6.96M cleaned flights
+  * data/processed_v2/airports.csv       — IATA → lat/lon/timezone
+  * data/processed_v2/hourly_weather_2024.parquet — NOAA hourly weather
 
 We deliberately do NOT depend on val_predictions_*.parquet or stage_*.joblib
-bundles: the teammate's dashboard required those and they don't exist on this
+bundles — the teammate's dashboard required those and they don't exist on this
 machine. Every chart this dashboard renders is either (a) a scalar/array read
 from JSON, or (b) an aggregate computed from clean.parquet on the fly with
 Streamlit's cache keeping the cost paid once per session.
@@ -102,7 +102,7 @@ def airports() -> Optional[pd.DataFrame]:
 def val_window_aggregate(_mt: float) -> Optional[pd.DataFrame]:
     """Per-airport flight count + delay rate restricted to the validation
     window (Sep-Oct 2024). Used by the Overview map; doesn't require the
-    val-prediction parquets the teammate's dashboard expected: we just slice
+    val-prediction parquets the teammate's dashboard expected — we just slice
     clean.parquet by date."""
     df = _load_clean(_mt)
     if df is None:
@@ -149,7 +149,7 @@ def arrivals_for_pressure_demo(_mt: float, airport: str,
              & (df["dest"].astype(str) == airport)].copy()
     if win.empty:
         return win
-    # CRS arrival as datetime (no timezone correction needed: same-airport;
+    # CRS arrival as datetime (no timezone correction needed — same-airport;
     # the dashboard's demo only needs *relative* timestamps for one airport).
     crs_h = (win["crs_arr_time"] // 100).clip(0, 23)
     crs_m = (win["crs_arr_time"] % 100).clip(0, 59)

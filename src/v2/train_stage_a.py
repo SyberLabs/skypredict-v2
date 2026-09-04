@@ -1,5 +1,5 @@
 """
-train_stage_a.py: Train Stage A models (flight-only, no weather/network).
+train_stage_a.py — Train Stage A models (flight-only, no weather/network).
 
 Models:
   - Logistic Regression (binary classification)
@@ -150,7 +150,7 @@ def train_stage_a(
     # ── 4. LightGBM Ordinal Classifier ────────────────────────────────────
     # Actual multiclass on delay_bucket {0=on_time, 1=minor, 2=major, 3=severe}.
     # Replaces the old "ordinal recall" that incorrectly reused the binary
-    # classifier, that metric was misnamed. We now train a real 4-class model
+    # classifier — that metric was misnamed. We now train a real 4-class model
     # and report adjacent-bucket accuracy / quadratic-weighted kappa downstream.
     print("\n[train] -- LightGBM Ordinal Classifier (4-class) --")
     t0 = time.time()

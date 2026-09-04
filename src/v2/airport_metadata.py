@@ -1,5 +1,5 @@
 """
-airport_metadata.py: IATA to Lat/Lon and Timezone mapping.
+airport_metadata.py — IATA to Lat/Lon and Timezone mapping.
 
 Fetches airport data from OpenFlights to map the BTS 3-letter IATA codes
 to their latitude, longitude, and IANA timezone strings.

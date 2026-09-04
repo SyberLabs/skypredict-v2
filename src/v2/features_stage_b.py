@@ -118,7 +118,7 @@ def merge_weather_features(df: pd.DataFrame, wx_df: pd.DataFrame, prefix: str, i
     print(f"[features_b] Merging {prefix} weather data (asof, backward 1h)...")
     # CAUSAL: direction="backward" with allow_exact_matches=True returns the most
     # recent observation at or before the scheduled time. tolerance=1h matches the
-    # hourly ISD cadence: if no obs in the last hour we'd rather have NaN (filled
+    # hourly ISD cadence — if no obs in the last hour we'd rather have NaN (filled
     # later with median) than reach further. "nearest" would let us pull weather
     # from the FUTURE of scheduled time, which a forecaster at gate-close does not
     # have. Empirical impact is small (adjacent hourly METARs are autocorrelated)

@@ -1,5 +1,5 @@
 """
-split.py: Strictly temporal train/val/test split.
+split.py — Strictly temporal train/val/test split.
 
 Train: 2024-01-01 to 2024-08-31
 Val:   2024-09-01 to 2024-10-31
@@ -24,7 +24,7 @@ def temporal_split(
         date_col: Name of the date column.
 
     Returns:
-        (train_df, val_df, test_df): disjoint, date-contiguous subsets.
+        (train_df, val_df, test_df) — disjoint, date-contiguous subsets.
     """
     # Ensure date column is datetime
     dates = pd.to_datetime(df[date_col])
@@ -40,7 +40,7 @@ def temporal_split(
     # Sanity checks
     total = len(train) + len(val) + len(test)
     assert total == len(df), (
-        f"Split produced {total} rows but input has {len(df)}: "
+        f"Split produced {total} rows but input has {len(df)} — "
         "some rows fell outside all date ranges!"
     )
 

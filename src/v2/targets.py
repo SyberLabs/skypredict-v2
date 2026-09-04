@@ -1,5 +1,5 @@
 """
-targets.py: Create all target columns from arr_delay.
+targets.py — Create all target columns from arr_delay.
 
 Targets:
   - delayed        : binary, 1 if arr_delay > 15 min

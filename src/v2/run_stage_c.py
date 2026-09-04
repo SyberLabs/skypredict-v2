@@ -98,7 +98,7 @@ def run(sample: bool = False):
 
     hist_stats = compute_historical_stats(train)
     train = merge_historical_stats(train, hist_stats)
-    # Expanding (not frozen) historical stats for val/test: see Stage A notes.
+    # Expanding (not frozen) historical stats for val/test — see Stage A notes.
     val = compute_and_merge_hist_stats_for_val_test(train, val)
     test = compute_and_merge_hist_stats_for_val_test(
         pd.concat([train, val], ignore_index=True), test
@@ -216,7 +216,7 @@ def run(sample: bool = False):
     # 8. Baselines
     print("\n-- Context baselines --")
 
-    # Classification floor: predict majority class everywhere. By construction
+    # Classification floor — predict majority class everywhere. By construction
     # ROC-AUC = 0.5 and PR-AUC = positive base rate; surfacing these gives the
     # reader a no-skill reference for the model PR-AUC.
     majority_result = predict_majority_class(train[TARGET_BINARY], len(val))

@@ -104,10 +104,10 @@ def _audit_table() -> None:
         {
             "n": 1,
             "severity": "🔴 Causal integrity",
-            "issue": "Stage B `merge_asof(direction=\"nearest\", tol=2h)` could pull weather from up to 2 h *after* scheduled departure/arrival: a forecaster at gate-close does not have that data.",
+            "issue": "Stage B `merge_asof(direction=\"nearest\", tol=2h)` could pull weather from up to 2 h *after* scheduled departure/arrival — a forecaster at gate-close does not have that data.",
             "fix": "`direction=\"backward\", tolerance=pd.Timedelta(hours=1)`",
             "where": "`src/v2/features_stage_b.py:119-138`",
-            "impact": "Stage B val ROC-AUC moved 0.6575 → 0.6531 (≈0: the leakage was contributing almost nothing). Honesty preserved at near-zero empirical cost.",
+            "impact": "Stage B val ROC-AUC moved 0.6575 → 0.6531 (≈0 — the leakage was contributing almost nothing). Honesty preserved at near-zero empirical cost.",
         },
         {
             "n": 2,
@@ -120,7 +120,7 @@ def _audit_table() -> None:
         {
             "n": 3,
             "severity": "🟠 Honesty",
-            "issue": "The pre-audit 'ordinal recall' was actually the binary classifier thresholded into buckets, not an ordinal model.",
+            "issue": "The pre-audit 'ordinal recall' was actually the binary classifier thresholded into buckets — not an ordinal model.",
             "fix": "Real 4-class LightGBM (`objective=\"multiclass\"`, `class_weight=\"balanced\"`) on `delay_bucket`; QWK + adjacent-accuracy reported.",
             "where": "`src/v2/train_stage_a.py:147-176` + `evaluate_v2.py:94-156`",
             "impact": "Stage C ordinal: QWK = 0.191, adj-bucket acc. = 0.846. Real metric replaces a fictitious one.",
@@ -139,12 +139,12 @@ def _audit_table() -> None:
             "issue": "`arr_delay` remained on dataframes after consumption. The `assert_no_leakage` check caught it at training time, but a future feature could still touch it.",
             "fix": "Defensive drop of `arr_delay` immediately after stat / pressure computation.",
             "where": "`features_stage_a.py:402-413` and `features_stage_c.py:134-140`",
-            "impact": "Belt-and-braces: the runtime assertion is no longer the only line of defense.",
+            "impact": "Belt-and-braces — the runtime assertion is no longer the only line of defense.",
         },
         {
             "n": 6,
             "severity": "🟡 Robustness",
-            "issue": "Train historical stats were expanding (per-day) but val/test stats were frozen at the train cutoff. The model trained on a growing series and was scored against a constant: a distributional mismatch.",
+            "issue": "Train historical stats were expanding (per-day) but val/test stats were frozen at the train cutoff. The model trained on a growing series and was scored against a constant — a distributional mismatch.",
             "fix": "Val/test stats now use the same expanding backward-only helper as train, combining train + earlier splits.",
             "where": "`src/v2/features_stage_a.py:262-310`",
             "impact": "Matches what an operational forecaster sees at gate-close: a stat that ticks forward day by day.",
@@ -188,7 +188,7 @@ def _audit_table() -> None:
         )
 
     st.caption(
-        "None of the six issues constituted strict target leakage: the "
+        "None of the six issues constituted strict target leakage — the "
         "pipeline's ROC-AUC numbers were honestly earned at every stage. "
         "The fixes tightened causal correctness (#1), honesty of reporting "
         "(#2, #3, #4), and robustness (#5, #6)."
