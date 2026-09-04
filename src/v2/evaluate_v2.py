@@ -1,5 +1,5 @@
 """
-evaluate_v2.py — Full evaluation suite for SkyPredict v2.
+evaluate_v2.py: Full evaluation suite for SkyPredict v2.
 
 Metrics:
   Classification (binary):
@@ -206,7 +206,7 @@ def pr_auc_at_common_base_rate(
     Bidirectional: if natural rate > target we downsample POSITIVES; if natural
     rate < target we downsample NEGATIVES. Never upsamples either class. With
     Nov-Dec 2024 test (~17% delayed) vs Sep-Oct val (~13.7%), we down-sample
-    positives — losing some signal in the rare class but giving an apples-to-
+    positives: losing some signal in the rare class but giving an apples-to-
     apples PR-AUC comparison.
     """
     y_true = np.asarray(y_true).astype(int)
@@ -232,14 +232,14 @@ def pr_auc_at_common_base_rate(
     neg_idx = np.where(y_true == 0)[0]
 
     if nat_rate < target_pos_rate:
-        # Downsample negatives — keep all positives, sample k negatives
+        # Downsample negatives: keep all positives, sample k negatives
         # n_pos / (n_pos + k) = target → k = n_pos * (1-target) / target
         k = int(round(n_pos * (1.0 - target_pos_rate) / target_pos_rate))
         k = min(k, n_neg)
         sampled_neg = rng.choice(neg_idx, size=k, replace=False)
         keep = np.concatenate([pos_idx, sampled_neg])
     else:
-        # Downsample positives — keep all negatives, sample k positives
+        # Downsample positives: keep all negatives, sample k positives
         # k / (k + n_neg) = target → k = n_neg * target / (1-target)
         k = int(round(n_neg * target_pos_rate / (1.0 - target_pos_rate)))
         k = min(k, n_pos)

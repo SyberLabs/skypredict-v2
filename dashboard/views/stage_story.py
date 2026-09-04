@@ -1,4 +1,4 @@
-"""Stage Story page — what each feature family buys us, A → B → C.
+"""Stage Story page: what each feature family buys us, A → B → C.
 
 Compared to the teammate's version, this page does three things that matter
 for the audit story:
@@ -13,7 +13,7 @@ for the audit story:
      per-bucket precision/recall) which are present in
      final_test_metrics.json but invisible in the teammate's dashboard.
 
-Everything here reads from JSON only — no model bundles required.
+Everything here reads from JSON only: no model bundles required.
 """
 from typing import Optional
 
@@ -128,7 +128,7 @@ def _lift_narrative() -> None:
         return b.get("pr_auc_at_val_prevalence", {}).get("pr_auc_rebalanced")
 
     def _d(a, b, fmt=".3f"):
-        if a is None or b is None: return "—"
+        if a is None or b is None: return ": "
         d = a - b
         return f"{d:+{fmt}}"
 
@@ -191,7 +191,7 @@ def _lift_narrative() -> None:
               ROC-AUC and PR-AUC lift of hourly weather. Stage A → C is
               <span style="{code_style}">+{roc_lift:.3f}</span> ROC-AUC and
               <span style="{code_style}">+{pr_lift:.3f}</span> PR-AUC at val
-              prevalence — supporting the project's network-propagation thesis.
+              prevalence: supporting the project's network-propagation thesis.
             </div>
             """,
             unsafe_allow_html=True,
@@ -216,7 +216,7 @@ def _prevalence_note() -> None:
           <strong style="color:{theme.ACCENT};">Why two PR-AUC columns?</strong>
           Validation prevalence is <strong>{val_pr:.1%}</strong> delayed
           (Sep–Oct), test prevalence is <strong>{test_pr:.1%}</strong>
-          (Nov–Dec — winter holidays). PR-AUC is sensitive to positive base
+          (Nov–Dec: winter holidays). PR-AUC is sensitive to positive base
           rate: reporting only natural-prevalence PR-AUC would mix the model's
           improvement with the test set's higher delay floor. The
           <em>PR-AUC @ val prev.</em> column downsamples test positives to
@@ -324,7 +324,7 @@ def _ordinal_panel() -> None:
             })
         st.dataframe(pd.DataFrame(pb_rows), hide_index=True, use_container_width=True)
         st.caption(
-            "Severe-bucket precision stays low (0.04) — predicting *magnitude* "
+            "Severe-bucket precision stays low (0.04): predicting *magnitude* "
             "before departure is genuinely hard, dominated by post-departure "
             "operational events the model can't see. Adjacent-bucket accuracy "
             "(0.846) shows the model lands within one bucket of the truth most "

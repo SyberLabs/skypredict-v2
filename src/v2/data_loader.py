@@ -1,5 +1,5 @@
 """
-data_loader.py — Load and filter the raw BTS 2024 CSV.
+data_loader.py: Load and filter the raw BTS 2024 CSV.
 
 Handles:
   - Loading only the columns we need (LOAD_COLS)
@@ -76,7 +76,7 @@ def load_raw(sample: bool = False) -> pd.DataFrame:
 def basic_filter(df: pd.DataFrame) -> pd.DataFrame:
     """
     Remove cancelled/diverted flights and rows with missing arr_delay.
-    Drop the 'cancelled' and 'diverted' columns after filtering — they are
+    Drop the 'cancelled' and 'diverted' columns after filtering: they are
     not features and must not leak into the model.
     """
     n0 = len(df)

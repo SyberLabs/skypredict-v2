@@ -1,4 +1,4 @@
-"""SkyPredict v2 dashboard — Streamlit entrypoint.
+"""SkyPredict v2 dashboard: Streamlit entrypoint.
 
 Run from the project root:
 
@@ -6,17 +6,17 @@ Run from the project root:
 
 Pages
 -----
-1. Overview              — hero, KPIs, temporal split, delay distribution, map
-2. Stage A → B → C       — final-test metric progression with the audit's
+1. Overview: hero, KPIs, temporal split, delay distribution, map
+2. Stage A → B → C: final-test metric progression with the audit's
                             PR-AUC@val-prevalence column + majority-class floor
-3. Network propagation   — the project's contribution: theory + a live demo
+3. Network propagation: the project's contribution: theory + a live demo
                             of the 3-hour arrival pressure feature computed
                             directly from clean.parquet (no model required)
-4. Methodology & audit   — causal guardrails + the six audit fixes,
+4. Methodology & audit: causal guardrails + the six audit fixes,
                             file:line linked
 
 This dashboard intentionally avoids depending on val_prediction parquets or
-joblib model bundles — it runs against the artifacts the audited pipeline
+joblib model bundles: it runs against the artifacts the audited pipeline
 already produced on disk.
 """
 import os

@@ -1,4 +1,4 @@
-"""Overview page — the entry surface of the demo.
+"""Overview page: the entry surface of the demo.
 
 Tells a cold visitor three things in order:
   1. What SkyPredict v2 is and why network propagation matters (hero)
@@ -6,7 +6,7 @@ Tells a cold visitor three things in order:
   3. What the pipeline progression buys us (three side-by-side stage cards)
 
 Everything on this page is read from JSON + clean.parquet. No model joblibs
-or val-prediction parquets are required — those don't exist on this machine.
+or val-prediction parquets are required: those don't exist on this machine.
 """
 import numpy as np
 import pandas as pd
@@ -38,7 +38,7 @@ def _hero() -> None:
           </div>
           <div style="font-size:1.15rem;opacity:0.9;max-width:780px;">
             Pre-departure flight delay prediction as a
-            <strong>network propagation problem</strong> — schedule, weather,
+            <strong>network propagation problem</strong>: schedule, weather,
             and rolling airport backlog layered stage by stage, with strict
             causal guarantees.
           </div>
@@ -53,7 +53,7 @@ def _kpi_cards() -> None:
     final = loaders.final_metrics()
     meta_a = loaders.stage_metrics("A")
     if final is None or meta_a is None:
-        st.warning("Run the pipeline first — metric artifacts are missing.")
+        st.warning("Run the pipeline first: metric artifacts are missing.")
         return
 
     split = meta_a["split"]
@@ -68,7 +68,7 @@ def _kpi_cards() -> None:
     reg_c = loaders.final_stage_regression("C")
     mae_c = reg_c["mae"] if reg_c else None
 
-    # Baseline reference for MAE delta — pull from Stage C val baselines block
+    # Baseline reference for MAE delta: pull from Stage C val baselines block
     baseline_mae = None
     metrics_c = loaders.stage_metrics("C")
     if metrics_c:
@@ -84,7 +84,7 @@ def _kpi_cards() -> None:
     )
     c2.metric(
         "Best test ROC-AUC",
-        f"{best:.3f}" if best > 0 else "—",
+        f"{best:.3f}" if best > 0 else ": ",
         delta=f"Stage {best_stage}" if best_stage else None,
         delta_color="off",
     )
@@ -102,7 +102,7 @@ def _kpi_cards() -> None:
                  if baseline_mae and mae_c else None)
     c4.metric(
         "Stage C MAE (test)",
-        f"{mae_c:.2f} min" if mae_c else "—",
+        f"{mae_c:.2f} min" if mae_c else ": ",
         delta=delta_mae,
         delta_color="off",
     )
@@ -114,15 +114,15 @@ def _project_blurb() -> None:
     st.markdown(
         """
 A three-stage flight-delay model where each stage layers on a new feature
-family — and we measure exactly what each one buys us:
+family, and we measure exactly what each one buys us:
 
-- **Stage A — Flight only.** Schedule, route, calendar, and *backward-only*
+- **Stage A: Flight only.** Schedule, route, calendar, and *backward-only*
   expanding historical delay rates per carrier / origin / dest / route.
-- **Stage B — + Weather.** NOAA-ISD hourly observations joined via
+- **Stage B: + Weather.** NOAA-ISD hourly observations joined via
   **timezone-aware, backward-only** `merge_asof` (1-hour tolerance) so no
   future weather can leak into the prediction.
-- **Stage C — + Network propagation.** A vectorized 3-hour rolling
-  arrival-delay *pressure* feature at both origin and destination — the
+- **Stage C: + Network propagation.** A vectorized 3-hour rolling
+  arrival-delay *pressure* feature at both origin and destination: the
   project's main contribution.
 
 Every feature is **causal**: a forecaster at scheduled gate-close has access
@@ -170,7 +170,7 @@ def _temporal_split() -> None:
     st.caption(
         "Strictly chronological. Stage A's historical delay rates expand "
         "day-by-day; every val/test row sees only history strictly earlier "
-        "than its own date — no random k-fold, no temporal overlap."
+        "than its own date: no random k-fold, no temporal overlap."
     )
 
 
@@ -229,7 +229,7 @@ def _airport_map() -> None:
     ).dropna(subset=["lat", "lon"])
 
     df["size"] = np.sqrt(df["flights"]).clip(lower=4, upper=32)
-    # Only label the largest hubs — 348 overlapping IATA codes turn the map
+    # Only label the largest hubs: 348 overlapping IATA codes turn the map
     # into noise. customdata carries the full hover string independently.
     top25 = df.nlargest(25, "flights")["iata"].tolist()
     df["label"] = df["iata"].where(df["iata"].isin(top25), "")
@@ -304,7 +304,7 @@ def _pipeline_cards() -> None:
     cols = st.columns(3, gap="medium")
     for col, card in zip(cols, cards):
         b = loaders.final_stage_binary(card["stage"])
-        roc_str = f"{b['roc_auc']:.3f}" if b else "—"
+        roc_str = f"{b['roc_auc']:.3f}" if b else ": "
         color = theme.STAGE_COLORS[card["stage"]]
         with col:
             st.markdown(
@@ -370,7 +370,7 @@ def _closing_callout() -> None:
             Why this framing is interesting.
           </span>
           <span>
-            Flight delays don't exist in isolation — a storm in Atlanta at
+            Flight delays don't exist in isolation: a storm in Atlanta at
             9 am ripples through Chicago at noon and Denver at 3 pm. Stage C's
             3-hour rolling arrival pressure captures that ripple with a
             vectorized cumulative-sum window join that runs on 7 M flights in
@@ -398,7 +398,7 @@ def render() -> None:
     st.divider()
     st.subheader("The problem space")
     st.caption(
-        "Validation period (Sep–Oct 2024). Modeled flights only — "
+        "Validation period (Sep–Oct 2024). Modeled flights only: "
         "cancellations and diversions are dropped at load time."
     )
     cL, cR = st.columns([1, 1.05])

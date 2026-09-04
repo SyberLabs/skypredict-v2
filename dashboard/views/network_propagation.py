@@ -1,9 +1,9 @@
-"""Network Propagation — theory and empirical demo.
+"""Network Propagation: theory and empirical demo.
 
 This page replaces the teammate's "Live prediction" page. The original page
 required val_predictions parquets and stage_*.joblib bundles that don't exist
 on this machine; rather than synthesize those artifacts, we surface what the
-project actually contributes — Stage C's network arrival-pressure feature —
+project actually contributes: Stage C's network arrival-pressure feature
 in a form a viewer can watch work, computed from clean.parquet on the fly.
 
 What you see here
@@ -14,7 +14,7 @@ What you see here
      rolling arrival count and mean delay STRICTLY before each minute of the
      day (the Stage C window), and renders the resulting pressure curve.
      Vertical markers show the actual scheduled departures from that airport
-     — you can see, by eye, that pressure tends to be high when departures
+: you can see, by eye, that pressure tends to be high when departures
      are about to be delayed.
   3. The empirical lift Stage C delivers (from final_test_metrics.json).
 """
@@ -44,20 +44,20 @@ def _theory_block() -> None:
 Flight delays are **not i.i.d.** A delay at a hub at 09:00 becomes a delay
 downstream at 12:00 along two coupled channels:
 
-- **Aircraft propagation** — the same tail number rotates between airports;
+- **Aircraft propagation**: the same tail number rotates between airports;
   if the inbound flight is late, the outbound flight inherits the delay.
-- **Resource propagation** — runways, gates, ATC capacity, and ground crews
+- **Resource propagation**: runways, gates, ATC capacity, and ground crews
   at the destination are shared across all arriving flights, so a queue of
   late inbounds throttles every subsequent departure.
 
 Operational implication: at scheduled gate-close *T*, **the queue of
 recently-arrived inbound flights at the airport is a strong predictor of
-the next departure's delay** — independent of weather, independent of the
+the next departure's delay**: independent of weather, independent of the
 carrier's historical rate.
             """
         )
     with right:
-        st.markdown("### Our pressure feature — causally")
+        st.markdown("### Our pressure feature: causally")
         st.markdown(
             f"""
 For each scheduled departure at *(airport = O, time = T)*:
@@ -69,7 +69,7 @@ pressure(O, T) = mean arr_delay  of all flights
 ```
 
 - **Causal**: the window ends strictly before *T*. A flight cannot leak
-  its own delay into its own pressure — its arrival time is by
+  its own delay into its own pressure: its arrival time is by
   construction ≥ *T*.
 - **Scaled to 7 M rows** with per-airport cumulative sums + backward
   <span style="{code_style}">merge_asof</span>: an O(N log N) replacement
@@ -110,7 +110,7 @@ def _pressure_curve(arrivals: pd.DataFrame, day: pd.Timestamp,
     # Build running cumulative sums; pressure for a grid time T is
     # sum(delays where arr < T) - sum(delays where arr < T-3h), divided by
     # the equivalent count diff. We use np.searchsorted (binary search) to
-    # find the two boundary indices — same idea as Stage C's merge_asof.
+    # find the two boundary indices: same idea as Stage C's merge_asof.
     cum_sum = np.concatenate([[0.0], np.cumsum(delays)])
     cum_cnt = np.arange(len(delays) + 1, dtype=np.float64)
 
@@ -175,7 +175,7 @@ def _empirical_demo() -> None:
         "Pick an airport and a date; we pull every real arrival at that "
         "airport from `clean.parquet`, compute the Stage C 3-hour rolling "
         "pressure curve directly, and plot it across one full day. **No model "
-        "is involved here** — this is the raw input feature."
+        "is involved here**: this is the raw input feature."
     )
 
     df = loaders.clean_flights()
@@ -198,11 +198,11 @@ def _empirical_demo() -> None:
             "Airport (top-30 hubs by val volume)",
             options=top_airports,
             index=top_airports.index("ATL") if "ATL" in top_airports else 0,
-            help="Destination airport — we look at arrivals *into* this airport "
+            help="Destination airport: we look at arrivals *into* this airport "
                  "and compute pressure as Stage C does.",
         )
     with c2:
-        # Default to a date with reliably high pressure — a Friday in late October
+        # Default to a date with reliably high pressure: a Friday in late October
         default_day = date_t(2024, 10, 25)
         day = st.date_input(
             "Date (any day in 2024)",
@@ -247,16 +247,16 @@ def _empirical_demo() -> None:
     with st.expander("How to read this chart"):
         st.markdown(
             f"""
-- **Solid red line** — number of flights that actually landed at {airport}
+- **Solid red line**: number of flights that actually landed at {airport}
   in the previous {WINDOW_HOURS} hours. This is exactly
   `feat_dest_pressure_count` in Stage C.
-- **Dotted dark-blue line** — mean arrival delay of those flights (in
+- **Dotted dark-blue line**: mean arrival delay of those flights (in
   minutes). This is `feat_dest_pressure_3h`.
 - Both quantities are computed at every 5-minute step across the day using
-  per-airport cumulative sums + `np.searchsorted` — the same exact algorithm
+  per-airport cumulative sums + `np.searchsorted`: the same exact algorithm
   Stage C uses on the full 7M-flight table, just specialised to one airport
   for interactivity.
-- The window is **strictly half-open** `[T − 3h, T)` — an arrival at exactly
+- The window is **strictly half-open** `[T − 3h, T)`: an arrival at exactly
   time *T* does not count toward the pressure *at* time *T*, so a flight
   cannot leak its own delay.
             """
@@ -307,7 +307,7 @@ def _empirical_payoff() -> None:
               <strong style="color:#92400e;">Headline.</strong>
               Network pressure (B → C) delivers
               <strong>+{b_to_c_roc:.3f}</strong> ROC-AUC and
-              <strong>+{b_to_c_pr:.3f}</strong> PR-AUC@val-prev — roughly
+              <strong>+{b_to_c_pr:.3f}</strong> PR-AUC@val-prev: roughly
               <strong>{ratio_roc:.1f}×</strong> the ROC-AUC lift and
               <strong>{ratio_pr:.1f}×</strong> the PR-AUC lift that weather
               (A → B) provided. Supports the project's central thesis: flight

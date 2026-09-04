@@ -74,7 +74,7 @@ def main():
 
     hist_stats = compute_historical_stats(train)
     train = merge_historical_stats(train, hist_stats)
-    # Expanding (not frozen) historical stats for val/test — see Stage A notes.
+    # Expanding (not frozen) historical stats for val/test: see Stage A notes.
     val = compute_and_merge_hist_stats_for_val_test(train, val)
     test = compute_and_merge_hist_stats_for_val_test(
         pd.concat([train, val], ignore_index=True), test
@@ -159,7 +159,7 @@ def main():
         lgbm_clf_info = trained_models["lightgbm_clf"]
         binary_metrics = evaluate_binary_clf(lgbm_clf_info["model"], X_test_scaled, y_test_binary, f"LGBM Clf - {name}")
 
-        # PR-AUC at val's positive base rate — for a fair test↔val comparison
+        # PR-AUC at val's positive base rate: for a fair test↔val comparison
         scores_test = lgbm_clf_info["model"].predict_proba(X_test_scaled)[:, 1]
         pr_balanced = pr_auc_at_common_base_rate(
             y_test_binary, scores_test, target_pos_rate=val_pos_rate,

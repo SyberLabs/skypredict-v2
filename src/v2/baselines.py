@@ -1,5 +1,5 @@
 """
-baselines.py — Context baselines for SkyPredict v2.
+baselines.py: Context baselines for SkyPredict v2.
 
 These are simple predictors that set the floor for model performance:
   1. Predict-global-median: predict the training-set median arr_delay for all.

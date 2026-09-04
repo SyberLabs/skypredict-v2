@@ -1,5 +1,5 @@
 """
-run_stage_a.py — Orchestrator for SkyPredict v2 Stage A.
+run_stage_a.py: Orchestrator for SkyPredict v2 Stage A.
 
 Runs the full pipeline:
   1. Load and clean data
@@ -60,7 +60,7 @@ from src.v2.baselines import (
 from src.v2.train_stage_a import train_stage_a
 from src.v2.evaluate_v2 import (
     evaluate_binary_clf,
-    evaluate_ordinal_recall,           # legacy — kept for back-compat reporting
+    evaluate_ordinal_recall,           # legacy: kept for back-compat reporting
     evaluate_ordinal_multiclass,       # the real ordinal metric
     evaluate_regression,
     evaluate_baseline_classification,
@@ -91,7 +91,7 @@ def run(sample: bool = False):
     print("\n-- Temporal split --")
     train, val, test = temporal_split(df)
 
-    # Free memory — we don't need the full df anymore
+    # Free memory: we don't need the full df anymore
     del df
 
     # ── 4. Feature Engineering ────────────────────────────────────────────
@@ -102,12 +102,12 @@ def run(sample: bool = False):
     val, _ = build_features_stage_a(val, encoders=encoders)
     test, _ = build_features_stage_a(test, encoders=encoders)
 
-    # 4b. Historical stats — backward-only expanding window for train
+    # 4b. Historical stats: backward-only expanding window for train
     print("\n-- Computing backward-only historical stats (train) --")
     hist_stats = compute_historical_stats(train)
     train = merge_historical_stats(train, hist_stats)
 
-    # 4c. Historical stats for val/test — backward-only EXPANDING (not frozen)
+    # 4c. Historical stats for val/test: backward-only EXPANDING (not frozen)
     # Each split's history includes all earlier splits, so val sees train, and
     # test sees train+val. This matches what an operational forecaster has at
     # gate-close. See [features_stage_a.py:compute_and_merge_hist_stats_for_val_test].
@@ -117,7 +117,7 @@ def run(sample: bool = False):
         pd.concat([train, val], ignore_index=True), test
     )
 
-    # 4d. Defensive arr_delay drop — targets created, hist stats merged,
+    # 4d. Defensive arr_delay drop: targets created, hist stats merged,
     # raw target no longer needed downstream. See features_stage_a.drop_raw_target.
     train = drop_raw_target(train)
     val   = drop_raw_target(val)
@@ -163,7 +163,7 @@ def run(sample: bool = False):
         "baselines": {},
     }
 
-    # 7a. Logistic Regression — classification
+    # 7a. Logistic Regression: classification
     lr_info = trained["logistic_regression"]
     lr_binary = evaluate_binary_clf(
         lr_info["model"], X_val, y_val_binary, "Logistic Regression",
@@ -193,7 +193,7 @@ def run(sample: bool = False):
         "train_time_s": lgbm_clf_info["train_time"],
     }
 
-    # 7b'. LightGBM Ordinal — actual 4-class delay_bucket classifier
+    # 7b'. LightGBM Ordinal: actual 4-class delay_bucket classifier
     lgbm_ord_info = trained["lightgbm_ordinal"]
     lgbm_ord_metrics = evaluate_ordinal_multiclass(
         lgbm_ord_info["model"], X_val, y_val_ordinal, "LightGBM Ordinal",
@@ -217,7 +217,7 @@ def run(sample: bool = False):
     # ── 8. Context Baselines ──────────────────────────────────────────────
     print("\n-- Context baselines --")
 
-    # Baseline 0: classification floor — predict majority class for every flight.
+    # Baseline 0: classification floor: predict majority class for every flight.
     # By construction ROC-AUC = 0.5 and PR-AUC = positive base rate; surfacing
     # these in the metrics table makes the lift of the real models concrete.
     majority_result = predict_majority_class(train[TARGET_BINARY], len(val))

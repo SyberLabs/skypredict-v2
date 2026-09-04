@@ -1,5 +1,5 @@
 """
-features_stage_a.py — Flight-only feature engineering for Stage A.
+features_stage_a.py: Flight-only feature engineering for Stage A.
 
 All features are derived from information known BEFORE departure:
   - Scheduled times (CRS_DEP_TIME, CRS_ARR_TIME, CRS_ELAPSED_TIME)
@@ -88,7 +88,7 @@ def label_encode(
         encoders: If None, fit from df.  Otherwise, apply existing mapping.
 
     Returns:
-        (df, encoders) — df has new *_enc columns; encoders dict for reuse.
+        (df, encoders): df has new *_enc columns; encoders dict for reuse.
     """
     if cols is None:
         cols = ["op_unique_carrier", "origin", "dest"]
@@ -130,7 +130,7 @@ def compute_historical_stats(
     NOTE: This function uses arr_delay (the raw target) to compute historical
     aggregates.  This is acceptable because:
       1. We only use flights from dates STRICTLY BEFORE the current date.
-      2. These flights have already completed — their arr_delay is known.
+      2. These flights have already completed: their arr_delay is known.
     """
     df = df.copy()
     dates = pd.to_datetime(df[date_col])
@@ -264,7 +264,7 @@ def merge_historical_stats(
     Join pre-computed backward-only historical stats onto any split.
 
     For val/test splits where stats were computed only from training data,
-    we join on (date, key) — the val/test flight on date d gets the stat
+    we join on (date, key): the val/test flight on date d gets the stat
     that was current as of the last training date.
 
     For dates beyond the training range, we use the FINAL training-day stat.
@@ -332,7 +332,7 @@ def compute_and_merge_hist_stats_for_val_test(
     Backward-only expanding historical stats for val/test rows.
 
     For a val/test flight on date d, the assigned stat reflects every flight on
-    dates STRICTLY BEFORE d — across BOTH train and val/test history that has
+    dates STRICTLY BEFORE d: across BOTH train and val/test history that has
     already accumulated. This matches what an operational forecaster sees at
     gate-close: a running aggregate that ticks forward day by day.
 
@@ -342,7 +342,7 @@ def compute_and_merge_hist_stats_for_val_test(
     leakage bug but did suppress the model's ability to exploit the feature.
 
     Causal guarantee: target_df rows on date d only ever see rows with date < d
-    — accomplished by appending train and target into a single chronologically
+: accomplished by appending train and target into a single chronologically
     sorted frame and applying the same _expanding_stats / _expanding_stats_route
     helpers used for train. Same code path, no special-case freezing.
     """
@@ -358,7 +358,7 @@ def compute_and_merge_hist_stats_for_val_test(
     combined = pd.concat([train_view, tgt_view], ignore_index=True)
 
     # Reuse the same expanding-stat helpers that the training path uses, so
-    # train and val/test stats are produced by IDENTICAL code — no special-case
+    # train and val/test stats are produced by IDENTICAL code: no special-case
     # logic that could drift.
     stats = compute_historical_stats(combined, date_col="fl_date")
     combined = merge_historical_stats(combined, stats, fill_value=fill_value)
@@ -417,7 +417,7 @@ def assert_no_leakage(feature_cols: list[str]) -> None:
     """
     leaked = set(feature_cols) & FORBIDDEN_COLUMNS
     assert len(leaked) == 0, (
-        f"LABEL LEAKAGE DETECTED — forbidden columns in feature matrix: {leaked}\n"
+        f"LABEL LEAKAGE DETECTED: forbidden columns in feature matrix: {leaked}\n"
         "These are post-hoc fields and must NEVER be used as model inputs."
     )
     print(f"[features] [OK] No leakage -- {len(feature_cols)} features, "
