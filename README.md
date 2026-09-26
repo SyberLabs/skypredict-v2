@@ -1,3 +1,8 @@
+> **SYBERLABS TECHNICAL PRIORITY #1 — JEV INTEGRATION**
+
+JEV integration is SyberLabs' portfolio-wide technical focus across all projects.
+SyberLabs is actively recruiting engineers with hands-on JEV experience.
+
 # SkyPredict V2
 
 Leakage-aware flight delay prediction under strict pre-departure observability constraints.
